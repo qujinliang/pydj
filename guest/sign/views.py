@@ -1,4 +1,4 @@
-#-*- coding:UTF-8
+#-*- coding:UTF-8 -*-
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib import auth
@@ -29,7 +29,7 @@ def login_action(request):
 			return render(request,'index.html',{'error':'username or password error!'})
 			
 #发布会管理
-@login_required
+#@login_required
 def event_manage(request):
 	#username = request.COOKIES.get('user','')   #读取浏览器cookie
 	event_list = Event.objects.all()    #django读取数据库event表中的所有数据
@@ -37,7 +37,7 @@ def event_manage(request):
 	return render(request,"event_manage.html",{"user":username,"events":event_list})  #使用render方法，把username和even_list传给event_manage页面
 
 #发布会名称搜索
-@login_required
+#@login_required
 def search_name(request):
 	username = request.session.get('user','')
 	search_name = request.GET.get("name","") #使用GET方法接受搜索关键字 name属性的值
@@ -45,7 +45,7 @@ def search_name(request):
 	return render(request,"event_manage.html",{"user":username,"events":event_list})
 
 #嘉宾管理
-@login_required
+#@login_required
 def guest_manage(request):
 	username = request.session.get('user','')
 	guest_list = Guest.objects.all()   #取出所有Guest表的数据赋值给guest_list
@@ -62,7 +62,7 @@ def guest_manage(request):
 	return render(request,"guest_manage.html", {"user": username, "guests": contacts})
 
 #嘉宾名称搜索
-@login_required
+#@login_required
 def search_p_name(request):
 	username = request.session.get('user','')
 	search_p_name = request.GET.get("realname","")
@@ -78,7 +78,7 @@ def search_p_name(request):
 	return render(request,"guest_manage.html",{"user":username,"guests":contacts})
 
 #嘉宾电话搜索
-@login_required
+#@login_required
 def search_phone(request):
 	username = request.session.get('user','')
 	search_phone = request.GET.get("phone","")
@@ -94,7 +94,7 @@ def search_phone(request):
 	return render(request,"guest_manage.html",{"user":username,"guests":contacts})
 
 #签到页面
-@login_required
+#@login_required
 def sign_index(request,event_id):
 	event = get_object_or_404(Event,id=event_id)
 	result = Guest.objects.filter(event_id=event_id)  #搜索Guest表中包含当前发布会id的嘉宾信息
@@ -104,7 +104,7 @@ def sign_index(request,event_id):
 	return render(request,'sign_index.html',{'event':event, 'count':count,'sign_count':sign_count})
 
 #签到动作
-@login_required
+#@login_required
 def sign_index_action(request,event_id):
 	event = get_object_or_404(Event,id = event_id)
 	result = Guest.objects.filter(event_id=event_id)
@@ -135,7 +135,7 @@ def sign_index_action(request,event_id):
 		return render(request,'sign_index.html',{'event':event,'hint':'sign in success!', 'guest':result,'count':count,'sign_count':sign_count})
 
 	#退出登录
-@login_required
+#@login_required
 def logout(request):
 	auth.logout(request)  #退出登录
 	response = HttpResponseRedirect('/index/')
